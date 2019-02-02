@@ -119,4 +119,11 @@ void THCTensor_(cumprod)(THCState *state, THCTensor *self, THCTensor *src, int d
                              ScalarConvert<float, scalar_t>::to(1.0), MulOp<scalar_t>());
 }
 
+void THCTensor_(cummin)(THCState *state, THCTensor *self, THCTensor *src, int dimension)
+{
+  THCAssertSameGPU(THCTensor_(checkGPU)(state, 2, self, src));
+  return THCTensor_(scanDim)(state, self, src, dimension,
+                             ScalarConvert<float, scalar_t>::to(float('nan')), MinValuePair<scalar_t>());
+}
+
 #endif
